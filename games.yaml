@@ -1,0 +1,314 @@
+genres:
+  Abstract Strategy:
+    description: "Minimal or no theme; focus on pure strategy and perfect information."
+    mechanics:
+      - "Grid movement"
+      - "Pattern control"
+      - "Deterministic play"
+    examples:
+      - "Chess"
+      - "Go"
+      - "Azul"
+
+  Eurogame:
+    description: "Emphasis on strategy, resource management, and indirect player interaction; low randomness."
+    mechanics:
+      - "Worker placement"
+      - "Resource management"
+      - "Engine-building"
+    examples:
+      - "Catan"
+      - "Agricola"
+      - "Puerto Rico"
+
+  Thematic:
+    description: "Strong theme and narrative; often higher randomness and heavy components. (Also called 'Ameritrash')"
+    mechanics:
+      - "Dice combat"
+      - "Scenario-based play"
+      - "Asymmetric roles"
+    examples:
+      - "Twilight Imperium"
+      - "Betrayal at House on the Hill"
+      - "Zombicide"
+
+  Cooperative:
+    description: "Players work together against the game system; shared objectives and escalating threats."
+    mechanics:
+      - "Hand management"
+      - "Variable events"
+      - "Shared resources/health"
+    examples:
+      - "Pandemic"
+      - "Gloomhaven (co-op mode)"
+      - "Forbidden Island"
+
+  Social Deduction:
+    description: "Hidden roles and social interaction; success depends on bluffing and deduction."
+    mechanics:
+      - "Hidden roles"
+      - "Voting"
+      - "Information asymmetry"
+    examples:
+      - "Werewolf / Mafia"
+      - "The Resistance"
+      - "Secret Hitler"
+
+  Deck-building:
+    description: "Players construct a personalized deck during play to improve available actions/cards."
+    mechanics:
+      - "Card drafting/market"
+      - "Deck construction"
+      - "Shuffling and combos"
+    examples:
+      - "Dominion"
+      - "Clank!"
+      - "Marvel Legendary"
+
+  Drafting:
+    description: "Players select from a limited set of items/cards, often passing choices among players."
+    mechanics:
+      - "Card/item selection"
+      - "Passing/pick-and-pass"
+      - "Combo planning"
+    examples:
+      - "7 Wonders"
+      - "Sushi Go!"
+
+  Worker Placement:
+    description: "Players assign limited workers to actions; contested spots create tension."
+    mechanics:
+      - "Action selection"
+      - "Resource timing"
+      - "Blocking"
+    examples:
+      - "Viticulture"
+      - "Lords of Waterdeep"
+
+  Engine-building:
+    description: "Players create systems that generate increasing benefits or points over time."
+    mechanics:
+      - "Resource conversion chains"
+      - "Combo creation"
+      - "Long-term planning"
+    examples:
+      - "Terraforming Mars"
+      - "Wingspan"
+
+  Area Control:
+    description: "Compete to control regions for points or resources."
+    mechanics:
+      - "Unit placement"
+      - "Combat/resolution"
+      - "Majority scoring"
+    examples:
+      - "Risk"
+      - "Small World"
+      - "El Grande"
+
+  Tile-laying:
+    description: "Players place tiles to build the board collaboratively or competitively."
+    mechanics:
+      - "Spatial placement"
+      - "Edge matching"
+      - "Connectivity scoring"
+    examples:
+      - "Carcassonne"
+      - "Tsuro"
+
+  Set Collection:
+    description: "Collect sets of items or cards to score points through combinations."
+    mechanics:
+      - "Hand management"
+      - "Trading or drafting (sometimes)"
+    examples:
+      - "Rummy"
+      - "Ticket to Ride"
+      - "Jaipur"
+
+  Trick-taking:
+    description: "Players play cards in tricks to win rounds; traditional card-game structure."
+    mechanics:
+      - "Suit-following"
+      - "Trump cards"
+      - "Bidding variants"
+    examples:
+      - "Bridge"
+      - "Hearts"
+      - "Euchre"
+
+  Push-your-luck:
+    description: "Players repeatedly take risky actions for reward but may lose everything by pressing too far."
+    mechanics:
+      - "Probabilistic risk/reward"
+      - "Incremental rewards"
+    examples:
+      - "Can't Stop"
+      - "Zombie Dice"
+
+  Roll-and-move:
+    description: "Movement/outcomes determined mainly by dice rolls; often lighter, family-focused."
+    mechanics:
+      - "Dice rolling"
+      - "Track movement"
+    examples:
+      - "Monopoly"
+      - "King of Tokyo"
+
+  Legacy / Campaign:
+    description: "Games that change permanently over multiple sessions (stickers, sealed components)."
+    mechanics:
+      - "Scenario progression"
+      - "Evolving components/rules"
+    examples:
+      - "Risk Legacy"
+      - "Pandemic Legacy"
+      - "Gloomhaven"
+
+  Miniatures / Wargames:
+    description: "Tactical combat with miniatures or counters; historical or fantasy settings."
+    mechanics:
+      - "Measurement or grid movement"
+      - "Line-of-sight"
+      - "Detailed combat resolution"
+    examples:
+      - "Warhammer 40K"
+      - "Memoir '44"
+
+  Party Games:
+    description: "Light, social games for casual groups and higher player counts."
+    mechanics:
+      - "Wordplay"
+      - "Drawing/acting"
+      - "Quick rounds"
+    examples:
+      - "Codenames"
+      - "Pictionary"
+      - "Dixit"
+
+notes:
+  crossovers: "Many modern games blend genres (e.g., cooperative + deck-building). Genre is a loose guide to expected complexity, playtime, and interaction style."
+
+ownerships:
+  - "Interested"
+  - "Want"
+  - "Own"
+  - "Previously Owned"
+  - "Trade/Sell"
+  - "Not Interested"
+
+games:
+  7 Wonders:
+    favorite: [Personal rating - fill out later]
+    genre: "Drafting"
+    mechanics:
+      - "Card drafting"
+      - "Set collection"
+      - "Simultaneous play"
+    played: true
+    player_count:
+      min: 2
+      max: 7
+    playtime:
+      min: 30m
+      max: 45m 
+    rating: [Personal rating - fill out later]
+    rules_link: [Link to rules - fill out later]  
+    themes:
+      - "Ancient civilizations"
+      - "City-building"
+    weight: 2.5
+    notes: [Personal notes about the game - add later]
+  
+  Codenames:
+    genre: "Party Game"
+    mechanics:
+      - "Wordplay"
+      - "Team-based play"
+      - "Hidden information"
+    player_count:
+      min: 4
+      max: 8
+    playtime:
+      min: 15m
+      max: 30m
+    weight: 1.5
+    notes: [Personal notes about the game - add later]
+
+  Dominion:
+    genre: "Deck-building"
+    mechanics:
+      - "Card drafting/market"
+      - "Deck construction"
+      - "Shuffling and combos"
+    player_count:
+      min: 2
+      max: 4
+    playtime:
+      min: 30m
+      max: 45m
+    weight: 2.0
+    notes: [Personal notes about the game - add later]
+  
+  Keep the Heroes Out:
+    genre: "Cooperative"
+    mechanics:
+      - "Hand management"
+      - "Variable events"
+      - "Shared resources/health"
+    player_count:
+      min: 1
+      max: 4
+    playtime:
+      min: 30m
+      max: 45m
+    weight: 2.0
+    notes: [Personal notes about the game - add later]
+
+  Power Grid:
+    genre: "Eurogame"
+    mechanics:
+      - "Auction/bidding"
+      - "Route/network building"
+      - "Resource management"
+    player_count:
+      min: 2
+      max: 6
+    playtime:
+      min: 2h
+      max: 2.5h
+    weight: 3.0
+    notes: [Personal notes about the game - add later]
+
+  Settlers of Catan:
+    genre: "Eurogame"
+    mechanics:
+      - "Resource management"
+      - "Trading"
+      - "Dice rolling"
+    player_count:
+      min: 3
+      max: 4
+    playtime:
+      min: 1h
+      max: 1.5m
+    weight: 2.5
+    notes: [Personal notes about the game - add later]
+
+  Valley of the Kings:
+    genre: "Deck-building"
+    mechanics:
+      - "Card drafting/market"
+      - "Deck construction"
+      - "Shuffling and combos"
+    player_count:
+      min: 1
+      max: 4
+    playtime:
+      min: 30m
+      max: 45m
+    weight: 2.0
+    notes: [Personal notes about the game - add later]
+
+
+    
