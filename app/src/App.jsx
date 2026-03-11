@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import CssBaseline from '@mui/material/CssBaseline'
 import Chip from '@mui/material/Chip'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import rawData from '../../games.yaml'
+import rawData from '../data/games.yaml'
 
 const theme = createTheme()
 

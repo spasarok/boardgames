@@ -1,6 +1,6 @@
 # Board Games Table
 
-A static React + MUI app that renders the game collection defined in `../games.yaml` as a sortable table.
+A static React + MUI app that renders the game collection defined in `data/games.yaml` as a sortable table.
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ The output file is `dist/index.html`. All JavaScript and CSS are inlined into it
 
 ## Development
 
-To run a local dev server with hot reload (useful when editing `games.yaml` or source files):
+To run a local dev server with hot reload (useful when editing `data/games.yaml` or source files):
 
 ```bash
 npm run dev
@@ -38,6 +38,6 @@ Then open the URL shown in the terminal (typically `http://localhost:5173`).
 
 ## How it works
 
-- `games.yaml` is read at **build time** via [`@modyfi/vite-plugin-yaml`](https://github.com/Modyfi/vite-plugin-yaml) — there is no runtime file fetch.
+- `data/games.yaml` is read at **build time** via [`@modyfi/vite-plugin-yaml`](https://github.com/Modyfi/vite-plugin-yaml) — there is no runtime file fetch.
 - [`vite-plugin-singlefile`](https://github.com/richardtallent/vite-plugin-singlefile) inlines all assets into `index.html`, which avoids browser CORS restrictions when the file is opened over `file://`.
-- Edit `../games.yaml` and re-run `npm run build` to update the page.
+- Edit `data/games.yaml` and re-run `npm run build` to update the page.
