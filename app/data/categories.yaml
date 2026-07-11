@@ -1,0 +1,141 @@
+categories:
+  Abstract Strategy:
+    description: "Minimal theme; pure strategy, perfect information (Chess, Go, Azul)"
+    examples:
+      - "Chess"
+      - "Go"
+      - "Azul"
+  Area Control:
+    description: "Majority presence in regions scores points (Risk, Small World)"
+    examples:
+      - "Risk"
+      - "Small World"
+      - "El Grande"
+  Asymmetric:
+    description: "Players have different abilities, goals, or starting conditions (Root, Vast)"
+    examples:
+      - "Root"
+      - "Vast: The Crystal Caverns"
+      - "Netrunner"
+  Bidding:
+    description: "Players bid resources for actions or items (Power Grid, Modern Art)"
+    examples:
+      - "Power Grid"
+      - "Modern Art"
+      - "High Society"
+  Cooperative:
+    description: "All players vs. the game (Pandemic, Gloomhaven)"
+    examples:
+      - "Pandemic"
+      - "Gloomhaven (co-op mode)"
+      - "Forbidden Island"
+  Deck-building:
+    description: "You construct your deck during play (Dominion, Clank!)"
+    examples:
+      - "Dominion"
+      - "Clank!"
+      - "Marvel Legendary"
+  Drafting:
+    description: "Players select from a shared pool of cards or tiles (7 Wonders, Sushi Go!)"
+    examples:
+      - "7 Wonders"
+      - "Sushi Go!"
+      - "Blood Rage"
+  Engine-building:
+    description: "Create resource-conversion chains that compound over time (Wingspan, Terraforming Mars)"
+    examples:
+      - "Terraforming Mars"
+      - "Wingspan"
+  European:
+    description: "Strategy, resource management, low conflict, low randomness (Catan, Agricola)"
+    examples:
+      - "Catan"
+      - "Agricola"
+      - "Puerto Rico"
+  Hand Management:
+    description: "Draw, hold, and play cards efficiently (Race for the Galaxy, 7 Wonders)"
+    examples:
+      - "Race for the Galaxy"
+      - "7 Wonders"
+  Legacy / Campaign:
+    description: "Permanent changes across sessions (Pandemic Legacy, Risk Legacy)"
+    examples:
+      - "Risk Legacy"
+      - "Pandemic Legacy"
+      - "Gloomhaven"
+  Miniatures / Wargames:
+    description: "Tactical combat with minis or counters (Warhammer, Memoir '44)"
+    examples:
+      - "Warhammer 40K"
+      - "Memoir '44"
+  Party:
+    description: "Light, social, casual — large groups (Codenames, Dixit)"
+    examples:
+      - "Codenames"
+      - "Pictionary"
+      - "Dixit"
+  Push-your-luck:
+    description: "Risk increasing loss for increasing reward (Can't Stop, Zombie Dice)"
+    examples:
+      - "Can't Stop"
+      - "Zombie Dice"
+  Resource Management:
+    description: "Gather, store, and spend resources efficiently (Catan, Agricola)"
+    examples:
+      - "Catan"
+      - "Agricola"
+  Roll-and-move:
+    description: "Movement determined by dice rolls; light, accessible play (Monopoly, King of Tokyo)"
+    examples:
+      - "Monopoly"
+      - "King of Tokyo"
+  Set Collection:
+    description: "Gather matching/complementary groups for points (Ticket to Ride, Jaipur)"
+    examples:
+      - "Rummy"
+      - "Ticket to Ride"
+      - "Jaipur"
+  Social Deduction:
+    description: "Hidden roles, bluffing, deduction (Resistance, Secret Hitler)"
+    examples:
+      - "Werewolf / Mafia"
+      - "The Resistance"
+      - "Secret Hitler"
+  Thematic:
+    description: "Strong narrative, high randomness, heavy components (Twilight Imperium, Zombicide)"
+    examples:
+      - "Twilight Imperium"
+      - "Betrayal at House on the Hill"
+      - "Zombicide"
+  Tile-laying:
+    description: "Place tiles to build a shared board (Carcassonne, Azul)"
+    examples:
+      - "Carcassonne"
+      - "Tsuro"
+  Trick-taking:
+    description: "Win rounds by playing highest/matching card (Bridge, Hearts)"
+    examples:
+      - "Bridge"
+      - "Hearts"
+      - "Euchre"
+  Variable Events:
+    description: "Game state changes unpredictably (Pandemic, Keep the Heroes Out)"
+    examples:
+      - "Pandemic"
+      - "Keep the Heroes Out"
+  Voting:
+    description: "Players vote on outcomes, often with hidden agendas (Secret Hitler, The Resistance)"
+    examples:
+      - "Secret Hitler"
+      - "The Resistance"
+  Wordplay:
+    description: "Create, guess, or associate words under pressure (Codenames, Taboo)"
+    examples:
+      - "Codenames"
+      - "Taboo"
+      - "Scrabble"
+  Worker Placement:
+    description: "Assign limited workers to action spaces; contested spots create tension (Viticulture, Lords of Waterdeep)"
+    examples:
+      - "Viticulture"
+      - "Lords of Waterdeep"
