@@ -1,0 +1,10 @@
+weights:
+  light:
+    min: 0
+    max: 1.5
+  medium:
+    min: 2
+    max: 3.5
+  heavy:
+    min: 3.5
+    max: 5
