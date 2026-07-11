@@ -1,10 +1,15 @@
 import {useMemo, useState} from 'react'
 import {DataGrid} from '@mui/x-data-grid'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
 import CssBaseline from '@mui/material/CssBaseline'
 import Chip from '@mui/material/Chip'
-import {ThemeProvider, createTheme} from '@mui/material/styles'
+import {ThemeProvider, createTheme, useTheme} from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import rawData from '../data/games.yaml'
 import rawWeights from '../data/weights.yaml'
 import rawIcons from '../data/icons.yaml'
@@ -39,6 +44,32 @@ function ChipList({values}) {
                 <Chip key={v} label={v} size="small" variant="outlined"/>
             ))}
         </Box>
+    )
+}
+
+function GameCard({row}) {
+    const statusEntry = statusIconMap[row.status]
+    const StatusIcon = statusEntry ? MuiIcons[statusEntry.icon] : null
+    const ownershipEntry = ownershipIconMap[row.ownership]
+    const OwnershipIcon = ownershipEntry ? MuiIcons[ownershipEntry.icon] : null
+    const meta = [
+        row.players && `${row.players} players`,
+        row.playTimeMax && `Up to ${formatMinutes(row.playTimeMax)}`,
+        row.weight != null && `Weight ${row.weight}`,
+    ].filter(Boolean).join(' · ')
+    return (
+        <Card variant="outlined">
+            <CardContent sx={{'&:last-child': {pb: 1.5}, pt: 1.5, px: 2}}>
+                <Box sx={{display: 'flex', alignItems: 'center', gap: 1, mb: 0.5}}>
+                    {StatusIcon && <StatusIcon fontSize="small" sx={{color: statusEntry.color}} titleAccess={statusEntry.key}/>}
+                    <Typography variant="subtitle1" fontWeight="bold" sx={{flex: 1}}>{row.name}</Typography>
+                    {row.cooperative && <Typography variant="caption" sx={{bgcolor: 'action.selected', px: 0.75, py: 0.25, borderRadius: 0.5}}>Co-op</Typography>}
+                    {OwnershipIcon && <OwnershipIcon fontSize="small" sx={{color: ownershipEntry.color}} titleAccess={ownershipEntry.key}/>}
+                </Box>
+                {row.categories.length > 0 && <Box sx={{mb: 0.75}}><ChipList values={row.categories}/></Box>}
+                {meta && <Typography variant="body2" color="text.secondary">{meta}</Typography>}
+            </CardContent>
+        </Card>
     )
 }
 
@@ -107,6 +138,9 @@ const columns = [
 ]
 
 export default function App() {
+    const muiTheme = useTheme()
+    const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'))
+
     const rows = useMemo(
         () =>
             Object.entries(rawData.games ?? {}).map(([name, game], i) => {
@@ -160,6 +194,7 @@ export default function App() {
     }
 
     const [filters, setFilters] = useState(defaultFilters)
+    const [filtersOpen, setFiltersOpen] = useState(false)
 
     const filteredRows = useMemo(() => {
         return rows.filter(row => {
@@ -196,48 +231,86 @@ export default function App() {
         })
     }, [rows, filters])
 
+    const sortedFilteredRows = useMemo(
+        () => [...filteredRows].sort((a, b) => a.name.localeCompare(b.name)),
+        [filteredRows]
+    )
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <Box sx={{p: 3}}>
+            <Box sx={{p: {xs: 2, md: 3}}}>
                 <Typography variant="h4" gutterBottom>
                     Board Games
                 </Typography>
-                <Filters
-                    filters={filters}
-                    onChange={setFilters}
-                    onClearAll={() => setFilters(defaultFilters)}
-                    allCategories={allCategories}
-                    playTimeRange={playTimeRange}
-                    playersRange={playersRange}
-                    weightOptions={weightOptions}
-                />
+                {isMobile ? (
+                    <>
+                        <Button
+                            variant="outlined"
+                            size="small"
+                            onClick={() => setFiltersOpen(o => !o)}
+                            endIcon={<MuiIcons.FilterList/>}
+                            sx={{mb: 1}}
+                        >
+                            Filters
+                        </Button>
+                        <Collapse in={filtersOpen}>
+                            <Filters
+                                filters={filters}
+                                onChange={setFilters}
+                                onClearAll={() => setFilters(defaultFilters)}
+                                allCategories={allCategories}
+                                playTimeRange={playTimeRange}
+                                playersRange={playersRange}
+                                weightOptions={weightOptions}
+                            />
+                        </Collapse>
+                    </>
+                ) : (
+                    <Filters
+                        filters={filters}
+                        onChange={setFilters}
+                        onClearAll={() => setFilters(defaultFilters)}
+                        allCategories={allCategories}
+                        playTimeRange={playTimeRange}
+                        playersRange={playersRange}
+                        weightOptions={weightOptions}
+                    />
+                )}
                 <Typography variant="body2" color="text.secondary" sx={{mb: 2}}>
                     {filteredRows.length === rows.length
                         ? `${rows.length} game${rows.length !== 1 ? 's' : ''}`
                         : `${filteredRows.length} of ${rows.length} games`
-                    } · Click column headers to sort
+                    }{!isMobile && ' · Click column headers to sort'}
                 </Typography>
-                <Box sx={{width: '100%'}}>
-                    <DataGrid
-                        rows={filteredRows}
-                        columns={columns}
-                        pageSizeOptions={[10, 25, 50]}
-                        initialState={{
-                            pagination: {paginationModel: {pageSize: 25}},
-                            sorting: {sortModel: [{field: 'name', sort: 'asc'}]},
-                        }}
-                        autosizeOnMount
-                        autosizeOptions={{expand: true}}
-                        getRowHeight={() => 'auto'}
-                        disableRowSelectionOnClick
-                        sx={{
-                            '& .MuiDataGrid-row:hover': {
-                                backgroundColor: 'action.hover',
-                            },
-                        }}
-                    />
-                </Box>
+                {isMobile ? (
+                    <Box sx={{display: 'flex', flexDirection: 'column', gap: 1.5}}>
+                        {sortedFilteredRows.map(row => (
+                            <GameCard key={row.id} row={row}/>
+                        ))}
+                    </Box>
+                ) : (
+                    <Box sx={{width: '100%'}}>
+                        <DataGrid
+                            rows={filteredRows}
+                            columns={columns}
+                            pageSizeOptions={[10, 25, 50]}
+                            initialState={{
+                                pagination: {paginationModel: {pageSize: 25}},
+                                sorting: {sortModel: [{field: 'name', sort: 'asc'}]},
+                            }}
+                            autosizeOnMount
+                            autosizeOptions={{expand: true}}
+                            getRowHeight={() => 'auto'}
+                            disableRowSelectionOnClick
+                            sx={{
+                                '& .MuiDataGrid-row:hover': {
+                                    backgroundColor: 'action.hover',
+                                },
+                            }}
+                        />
+                    </Box>
+                )}
             </Box>
         </ThemeProvider>
     )
