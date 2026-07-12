@@ -36,8 +36,3 @@ npm run dev
 
 Then open the URL shown in the terminal (typically `http://localhost:5173`).
 
-## How it works
-
-- `data/games.yaml` is read at **build time** via [`@modyfi/vite-plugin-yaml`](https://github.com/Modyfi/vite-plugin-yaml) — there is no runtime file fetch.
-- [`vite-plugin-singlefile`](https://github.com/richardtallent/vite-plugin-singlefile) inlines all assets into `index.html`, which avoids browser CORS restrictions when the file is opened over `file://`.
-- Edit `data/games.yaml` and re-run `npm run build` to update the page.

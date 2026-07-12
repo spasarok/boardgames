@@ -263,10 +263,10 @@ export default function App() {
                 const entry = statusIconMap[value]
                 if (!entry) return null
                 const Icon = MuiIcons[entry.icon]
-                return Icon ? <Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/> : null
+                return Icon ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}><Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/></Box> : null
             },
         },
-        {field: 'name', headerName: 'Game', sortable: true, minWidth: 125},
+        {field: 'name', headerName: 'Game', sortable: true, minWidth: 125, renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
         {field: 'cooperative', headerName: 'Cooperative', type: 'boolean', sortable: true},
         {
             field: 'categories',
@@ -275,10 +275,12 @@ export default function App() {
             flex: 1,
             minWidth: 150,
             renderCell: ({value}) => (
-                <ChipList values={value} selectedValues={filters.categories} onToggle={handleCategoryToggle}/>
+                <Box sx={{display: 'flex', alignItems: 'center', height: '100%', width: '100%'}}>
+                    <ChipList values={value} selectedValues={filters.categories} onToggle={handleCategoryToggle}/>
+                </Box>
             ),
         },
-        {field: 'players', headerName: 'Players', sortable: true},
+        {field: 'players', headerName: 'Players', sortable: true, renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
         {
             field: 'playTimeMax',
             headerName: 'Max Play Time',
@@ -286,9 +288,9 @@ export default function App() {
             type: 'number',
             align: 'left',
             headerAlign: 'left',
-            valueFormatter: (value) => formatMinutes(value),
+            renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{formatMinutes(value)}</Box>,
         },
-        {field: 'weight', headerName: 'Weight', sortable: true, align: 'left', headerAlign: 'left'},
+        {field: 'weight', headerName: 'Weight', sortable: true, align: 'left', headerAlign: 'left', renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
         {
             field: 'ownership',
             headerName: 'Ownership',
@@ -301,7 +303,7 @@ export default function App() {
                 const entry = ownershipIconMap[value]
                 if (!entry) return null
                 const Icon = MuiIcons[entry.icon]
-                return Icon ? <Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/> : null
+                return Icon ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}><Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/></Box> : null
             },
         },
     ], [filters.categories, handleCategoryToggle])

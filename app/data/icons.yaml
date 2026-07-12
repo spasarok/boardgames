@@ -1,13 +1,13 @@
 icons:
   statuses:
     - key: "Favorite"
-      icon: "StarBorder"
+      icon: "Star"
     - key: "Want to Play"
-      icon: "Add"
+      icon: "Help"
   ownerships:
     - key: "Own"
       icon: "Check"
     - key: "Want"
       icon: "Add"
     - key: "Trade/Sell"
-      icon: "SwapHoriz"
+      icon: "Sell"
