@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react'
+import {useMemo, useState, useCallback} from 'react'
 import {DataGrid} from '@mui/x-data-grid'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -16,7 +16,64 @@ import rawIcons from '../data/icons.yaml'
 import * as MuiIcons from '@mui/icons-material'
 import Filters from './Filters'
 
-const theme = createTheme()
+const COLORS = {
+    frenchBlue:  '#1e3888',
+    pacificBlue: '#47a8bd',
+    bananaCream: '#f5e663',
+    sandyBrown:  '#ffad69',
+    burntRose:   '#9c3848',
+    ink:         '#1a1a2e',
+    background:  '#1e3888',
+}
+
+const theme = createTheme({
+    palette: {
+        primary: {main: COLORS.frenchBlue},
+        text: {primary: COLORS.ink},
+    },
+})
+
+const pipLayouts = {
+    1: [[0, 0]],
+    2: [[-0.3, -0.3], [0.3, 0.3]],
+    3: [[-0.3, -0.3], [0, 0], [0.3, 0.3]],
+    4: [[-0.3, -0.3], [0.3, -0.3], [-0.3, 0.3], [0.3, 0.3]],
+    5: [[-0.3, -0.3], [0.3, -0.3], [0, 0], [-0.3, 0.3], [0.3, 0.3]],
+    6: [[-0.3, -0.3], [0.3, -0.3], [-0.3, 0], [0.3, 0], [-0.3, 0.3], [0.3, 0.3]],
+}
+
+function Die({x, y, size, rotation, face, color, pipColor, opacity = 0.18}) {
+    const pips = pipLayouts[face] ?? []
+    return (
+        <g transform={`rotate(${rotation}, ${x}, ${y})`} opacity={opacity}>
+            <rect x={x - size / 2} y={y - size / 2} width={size} height={size} rx={size * 0.16} fill={color}/>
+            {pips.map(([px, py], i) => (
+                <circle key={i} cx={x + px * size * 0.55} cy={y + py * size * 0.55} r={size * 0.08} fill={pipColor}/>
+            ))}
+        </g>
+    )
+}
+
+function PageBackground() {
+    const dice = [
+        {x: 120,  y: 180, size: 110, rotation:  15, face: 6, color: COLORS.frenchBlue,  pipColor: COLORS.bananaCream},
+        {x: 1080, y: 280, size:  95, rotation: -20, face: 4, color: COLORS.burntRose,   pipColor: '#ffffff'},
+        {x: 380,  y: 620, size:  80, rotation:  30, face: 2, color: COLORS.pacificBlue, pipColor: '#ffffff'},
+        {x: 820,  y: 130, size:  85, rotation: -12, face: 5, color: COLORS.frenchBlue,  pipColor: COLORS.sandyBrown},
+        {x: 620,  y: 700, size:  70, rotation:  25, face: 3, color: COLORS.burntRose,   pipColor: COLORS.bananaCream},
+        {x: 230,  y: 530, size:  55, rotation: -35, face: 1, color: COLORS.sandyBrown,  pipColor: COLORS.frenchBlue},
+        {x: 960,  y: 560, size:  65, rotation:  40, face: 6, color: COLORS.pacificBlue, pipColor: COLORS.bananaCream},
+        {x: 700,  y: 380, size:  45, rotation: -18, face: 3, color: COLORS.bananaCream, pipColor: COLORS.frenchBlue},
+        {x: 480,  y: 200, size:  50, rotation:  50, face: 5, color: COLORS.burntRose,   pipColor: '#ffffff'},
+    ]
+    return (
+        <Box aria-hidden sx={{position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: -1, overflow: 'hidden', bgcolor: 'rgba(71,168,189,0.12)'}}>
+            <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" style={{width: '100%', height: '100%'}}>
+                {dice.map((d, i) => <Die key={i} {...d}/>)}
+            </svg>
+        </Box>
+    )
+}
 
 function formatMinutes(m) {
     if (m == null) return ''
@@ -35,19 +92,28 @@ function toMinutes(v) {
     return Math.round(Number(v) * 60)
 }
 
-/** Render a list of strings as compact Chips. */
-function ChipList({values}) {
+function ChipList({values, selectedValues, onToggle}) {
     if (!values?.length) return null
     return (
         <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5, py: 0.5}}>
-            {values.map((v) => (
-                <Chip key={v} label={v} size="small" variant="outlined"/>
-            ))}
+            {values.map((v) => {
+                const selected = selectedValues?.includes(v)
+                return (
+                    <Chip
+                        key={v}
+                        label={v}
+                        size="small"
+                        onClick={onToggle ? () => onToggle(v) : undefined}
+                        variant={selected ? 'filled' : 'outlined'}
+                        color={selected ? 'primary' : 'default'}
+                    />
+                )
+            })}
         </Box>
     )
 }
 
-function GameCard({row}) {
+function GameCard({row, selectedCategories, onCategoryToggle}) {
     const statusEntry = statusIconMap[row.status]
     const StatusIcon = statusEntry ? MuiIcons[statusEntry.icon] : null
     const ownershipEntry = ownershipIconMap[row.ownership]
@@ -58,7 +124,7 @@ function GameCard({row}) {
         row.weight != null && `Weight ${row.weight}`,
     ].filter(Boolean).join(' · ')
     return (
-        <Card variant="outlined">
+        <Card variant="outlined" sx={{backgroundColor: 'rgba(255,255,255,0.75)'}}>
             <CardContent sx={{'&:last-child': {pb: 1.5}, pt: 1.5, px: 2}}>
                 <Box sx={{display: 'flex', alignItems: 'center', gap: 1, mb: 0.5}}>
                     {StatusIcon && <StatusIcon fontSize="small" sx={{color: statusEntry.color}} titleAccess={statusEntry.key}/>}
@@ -66,7 +132,7 @@ function GameCard({row}) {
                     {row.cooperative && <Typography variant="caption" sx={{bgcolor: 'action.selected', px: 0.75, py: 0.25, borderRadius: 0.5}}>Co-op</Typography>}
                     {OwnershipIcon && <OwnershipIcon fontSize="small" sx={{color: ownershipEntry.color}} titleAccess={ownershipEntry.key}/>}
                 </Box>
-                {row.categories.length > 0 && <Box sx={{mb: 0.75}}><ChipList values={row.categories}/></Box>}
+                {row.categories.length > 0 && <Box sx={{mb: 0.75}}><ChipList values={row.categories} selectedValues={selectedCategories} onToggle={onCategoryToggle}/></Box>}
                 {meta && <Typography variant="body2" color="text.secondary">{meta}</Typography>}
             </CardContent>
         </Card>
@@ -79,63 +145,6 @@ const statusIconMap = Object.fromEntries(
 const ownershipIconMap = Object.fromEntries(
     (rawIcons.icons?.ownerships ?? []).map(e => [e.key, e])
 )
-
-const columns = [
-    {
-        field: 'status',
-        headerName: 'Status',
-        width: 60,
-        sortable: false,
-        disableColumnMenu: true,
-        align: 'center',
-        headerAlign: 'center',
-        renderCell: ({value}) => {
-            if (!value) return null
-            const entry = statusIconMap[value]
-            if (!entry) return null
-            const Icon = MuiIcons[entry.icon]
-            return Icon ? <Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/> : null
-        },
-    },
-    {field: 'name', headerName: 'Game', sortable: true, minWidth: 125},
-    {field: 'cooperative', headerName: 'Cooperative', type: 'boolean', sortable: true},
-    {
-        field: 'categories',
-        headerName: 'Categories',
-        sortable: false,
-        flex: 1,
-        minWidth: 150,
-        renderCell: ({value}) => <ChipList values={value}/>,
-    },
-    {field: 'players', headerName: 'Players', sortable: true},
-    {
-        field: 'playTimeMax',
-        headerName: 'Max Play Time',
-        sortable: true,
-        type: 'number',
-        align: 'left',
-        headerAlign: 'left',
-        valueFormatter: (value) => formatMinutes(value),
-    },
-    {field: 'weight', headerName: 'Weight', sortable: true, align: 'left', headerAlign: 'left'},
-    {
-        field: 'ownership',
-        headerName: 'Ownership',
-        width: 90,
-        sortable: true,
-        align: 'center',
-        headerAlign: 'center',
-        renderCell: ({value}) => {
-            if (!value) return null
-            const entry = ownershipIconMap[value]
-            if (!entry) return null
-            const Icon = MuiIcons[entry.icon]
-            return Icon ? <Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/> : null
-        },
-    },
-    // {field: 'rating', headerName: 'Rating', sortable: true},
-    // {field: 'notes', headerName: 'Notes', flex: 1, minWidth: 100, sortable: false},
-]
 
 export default function App() {
     const muiTheme = useTheme()
@@ -231,6 +240,72 @@ export default function App() {
         })
     }, [rows, filters])
 
+    const handleCategoryToggle = useCallback((cat) => {
+        setFilters(f => ({
+            ...f,
+            categories: f.categories.includes(cat)
+                ? f.categories.filter(c => c !== cat)
+                : [...f.categories, cat],
+        }))
+    }, [])
+
+    const columns = useMemo(() => [
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 60,
+            sortable: false,
+            disableColumnMenu: true,
+            align: 'center',
+            headerAlign: 'center',
+            renderCell: ({value}) => {
+                if (!value) return null
+                const entry = statusIconMap[value]
+                if (!entry) return null
+                const Icon = MuiIcons[entry.icon]
+                return Icon ? <Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/> : null
+            },
+        },
+        {field: 'name', headerName: 'Game', sortable: true, minWidth: 125},
+        {field: 'cooperative', headerName: 'Cooperative', type: 'boolean', sortable: true},
+        {
+            field: 'categories',
+            headerName: 'Categories',
+            sortable: false,
+            flex: 1,
+            minWidth: 150,
+            renderCell: ({value}) => (
+                <ChipList values={value} selectedValues={filters.categories} onToggle={handleCategoryToggle}/>
+            ),
+        },
+        {field: 'players', headerName: 'Players', sortable: true},
+        {
+            field: 'playTimeMax',
+            headerName: 'Max Play Time',
+            sortable: true,
+            type: 'number',
+            align: 'left',
+            headerAlign: 'left',
+            valueFormatter: (value) => formatMinutes(value),
+        },
+        {field: 'weight', headerName: 'Weight', sortable: true, align: 'left', headerAlign: 'left'},
+        {
+            field: 'ownership',
+            headerName: 'Ownership',
+            width: 90,
+            sortable: true,
+            align: 'center',
+            headerAlign: 'center',
+            renderCell: ({value}) => {
+                if (!value) return null
+                const entry = ownershipIconMap[value]
+                if (!entry) return null
+                const Icon = MuiIcons[entry.icon]
+                return Icon ? <Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/> : null
+            },
+        },
+    ], [filters.categories, handleCategoryToggle])
+
     const sortedFilteredRows = useMemo(
         () => [...filteredRows].sort((a, b) => a.name.localeCompare(b.name)),
         [filteredRows]
@@ -239,6 +314,7 @@ export default function App() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
+            <PageBackground/>
             <Box sx={{p: {xs: 2, md: 3}}}>
                 <Typography variant="h4" gutterBottom>
                     Board Games
@@ -286,7 +362,7 @@ export default function App() {
                 {isMobile ? (
                     <Box sx={{display: 'flex', flexDirection: 'column', gap: 1.5}}>
                         {sortedFilteredRows.map(row => (
-                            <GameCard key={row.id} row={row}/>
+                            <GameCard key={row.id} row={row} selectedCategories={filters.categories} onCategoryToggle={handleCategoryToggle}/>
                         ))}
                     </Box>
                 ) : (
@@ -304,9 +380,9 @@ export default function App() {
                             getRowHeight={() => 'auto'}
                             disableRowSelectionOnClick
                             sx={{
-                                '& .MuiDataGrid-row:hover': {
-                                    backgroundColor: 'action.hover',
-                                },
+                                backgroundColor: 'rgba(255,255,255,0.75)',
+                                '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {outline: 'none'},
+                                '& .MuiDataGrid-row:hover': {backgroundColor: 'action.hover'},
                             }}
                         />
                     </Box>

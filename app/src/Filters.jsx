@@ -47,7 +47,7 @@ export default function Filters({filters, onChange, onClearAll, allCategories, p
         filters.playerCount != null || filters.weights.length > 0
 
     return (
-        <Box sx={{mb: 3, p: 2, bgcolor: 'grey.50', borderRadius: 1}}>
+        <Box sx={{mb: 3, p: 2, bgcolor: 'rgba(255,255,255,0.75)', borderRadius: 1}}>
             <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 3, alignItems: 'flex-start'}}>
             <FilterSection label="Cooperative">
                 <ToggleButtonGroup
@@ -169,6 +169,7 @@ export default function Filters({filters, onChange, onClearAll, allCategories, p
                             checked={filters.favoritesOnly}
                             onChange={(e) => update('favoritesOnly', e.target.checked)}
                             size="small"
+                            color="primary"
                         />
                     }
                     label="Favorites"
@@ -183,6 +184,7 @@ export default function Filters({filters, onChange, onClearAll, allCategories, p
                             checked={filters.ownedOnly}
                             onChange={(e) => update('ownedOnly', e.target.checked)}
                             size="small"
+                            color="primary"
                         />
                     }
                     label="Own"
@@ -192,7 +194,8 @@ export default function Filters({filters, onChange, onClearAll, allCategories, p
 
                 {isFiltered && (
                     <Box sx={{alignSelf: 'center', ml: 'auto'}}>
-                        <Button variant="outlined" size="small" onClick={onClearAll}>
+                        <Button variant="outlined" size="small" onClick={onClearAll}
+                            color="primary">
                             Clear all
                         </Button>
                     </Box>
