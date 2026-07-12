@@ -8,6 +8,7 @@ import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
 import CssBaseline from '@mui/material/CssBaseline'
 import Chip from '@mui/material/Chip'
+import Tooltip from '@mui/material/Tooltip'
 import {ThemeProvider, createTheme, useTheme} from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import rawData from '../data/games.yaml'
@@ -156,8 +157,8 @@ export default function App() {
     useEffect(() => {
         const el = pageRef.current
         if (!el) return
-        // 50 + 60 + 225 + 150 + 90 + 130 + 80 + 90 + ~30 chrome = ~905
-        const MIN_TABLE_WIDTH = 930
+        // 50 + 60 + 300 + 120 + 90 + 130 + 80 + ~30 chrome = ~860
+        const MIN_TABLE_WIDTH = 880
         const ro = new ResizeObserver(([entry]) => {
             setTableOverflows(entry.contentRect.width < MIN_TABLE_WIDTH)
         })
@@ -310,13 +311,28 @@ export default function App() {
                 return Icon ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}><Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/></Box> : null
             },
         },
-        {field: 'name', headerName: 'Game', sortable: true, width: 225, renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
+        {
+            field: 'name', headerName: 'Game', sortable: true, width: 300,
+            renderCell: ({value, row}) => {
+                const notOwned = row.ownership !== 'Own'
+                return (
+                    <Box sx={{display: 'flex', alignItems: 'center', height: '100%', gap: 0.5, color: notOwned ? 'text.disabled' : 'inherit'}}>
+                        {value}
+                        {notOwned && (
+                            <Tooltip title="Not in Collection">
+                                <MuiIcons.WarningAmber sx={{fontSize: 16, color: 'text.disabled'}}/>
+                            </Tooltip>
+                        )}
+                    </Box>
+                )
+            },
+        },
         {
             field: 'categories',
             headerName: 'Categories',
             sortable: false,
             flex: 1,
-            minWidth: 150,
+            minWidth: 120,
             renderCell: ({value}) => (
                 <Box sx={{display: 'flex', alignItems: 'center', height: '100%', width: '100%'}}>
                     <ChipList values={value} selectedValues={effectiveSelectedCategories} onToggle={handleCategoryToggle}/>
@@ -335,21 +351,6 @@ export default function App() {
             renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{formatMinutes(value)}</Box>,
         },
         {field: 'weight', headerName: 'Weight', sortable: true, width: 80, align: 'left', headerAlign: 'left', renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
-        {
-            field: 'ownership',
-            headerName: 'Ownership',
-            width: 90,
-            sortable: true,
-            align: 'center',
-            headerAlign: 'center',
-            renderCell: ({value}) => {
-                if (!value) return null
-                const entry = ownershipIconMap[value]
-                if (!entry) return null
-                const Icon = MuiIcons[entry.icon]
-                return Icon ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}><Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/></Box> : null
-            },
-        },
     ], [effectiveSelectedCategories, handleCategoryToggle])
 
     const sortedFilteredRows = useMemo(
