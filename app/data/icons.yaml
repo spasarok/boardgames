@@ -1,11 +1,9 @@
 icons:
   statuses:
     - key: "Favorite"
-      icon: "Star"
-      color: "gold"
+      icon: "StarBorder"
     - key: "Want to Play"
       icon: "Add"
-      color: "red"
   ownerships:
     - key: "Own"
       icon: "Check"
