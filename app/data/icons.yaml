@@ -2,6 +2,10 @@ icons:
   statuses:
     - key: "Favorite"
       icon: "Star"
+    - key: "Play Sometimes"
+      icon: "StarHalf"
+    - key: "Play Rarely"
+      icon: "StarOutline"
     - key: "Want to Play"
       icon: "Help"
   ownerships:

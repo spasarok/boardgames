@@ -1,5 +1,5 @@
-import {useMemo, useState, useCallback} from 'react'
-import {DataGrid} from '@mui/x-data-grid'
+import {useMemo, useState, useCallback, useRef, useEffect} from 'react'
+import {DataGrid, gridSortedRowIdsSelector} from '@mui/x-data-grid'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
@@ -129,7 +129,8 @@ function GameCard({row, selectedCategories, onCategoryToggle}) {
                 <Box sx={{display: 'flex', alignItems: 'center', gap: 1, mb: 0.5}}>
                     {StatusIcon && <StatusIcon fontSize="small" sx={{color: statusEntry.color}} titleAccess={statusEntry.key}/>}
                     <Typography variant="subtitle1" fontWeight="bold" sx={{flex: 1}}>{row.name}</Typography>
-                    {row.cooperative && <Typography variant="caption" sx={{bgcolor: 'action.selected', px: 0.75, py: 0.25, borderRadius: 0.5}}>Co-op</Typography>}
+                    {row.categories.includes('Cooperative') && <Typography variant="caption" sx={{bgcolor: 'action.selected', px: 0.75, py: 0.25, borderRadius: 0.5}}>Co-op</Typography>}
+                    {row.categories.includes('Semi-cooperative') && <Typography variant="caption" sx={{bgcolor: 'action.selected', px: 0.75, py: 0.25, borderRadius: 0.5}}>Semi-coop</Typography>}
                     {OwnershipIcon && <OwnershipIcon fontSize="small" sx={{color: ownershipEntry.color}} titleAccess={ownershipEntry.key}/>}
                 </Box>
                 {row.categories.length > 0 && <Box sx={{mb: 0.75}}><ChipList values={row.categories} selectedValues={selectedCategories} onToggle={onCategoryToggle}/></Box>}
@@ -148,7 +149,23 @@ const ownershipIconMap = Object.fromEntries(
 
 export default function App() {
     const muiTheme = useTheme()
-    const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'))
+    const mdBreakpoint = useMediaQuery(muiTheme.breakpoints.down('md'))
+    const pageRef = useRef(null)
+    const [tableOverflows, setTableOverflows] = useState(false)
+
+    useEffect(() => {
+        const el = pageRef.current
+        if (!el) return
+        // 50 + 60 + 225 + 150 + 90 + 130 + 80 + 90 + ~30 chrome = ~905
+        const MIN_TABLE_WIDTH = 930
+        const ro = new ResizeObserver(([entry]) => {
+            setTableOverflows(entry.contentRect.width < MIN_TABLE_WIDTH)
+        })
+        ro.observe(el)
+        return () => ro.disconnect()
+    }, [])
+
+    const isMobile = mdBreakpoint || tableOverflows
 
     const rows = useMemo(
         () =>
@@ -209,8 +226,8 @@ export default function App() {
         return rows.filter(row => {
             if (filters.favoritesOnly && row.status !== 'Favorite') return false
             if (filters.ownedOnly && row.ownership !== 'Own' && row.ownership !== 'Trade/Sell') return false
-            if (filters.cooperative === 'cooperative' && !row.cooperative) return false
-            if (filters.cooperative === 'competitive' && row.cooperative) return false
+            if (filters.cooperative === 'cooperative' && !row.categories.includes('Cooperative') && !row.categories.includes('Semi-cooperative')) return false
+            if (filters.cooperative === 'competitive' && (row.categories.includes('Cooperative') || row.categories.includes('Semi-cooperative'))) return false
 
             if (filters.categories.length > 0) {
                 const match = filters.categoriesMode === 'any'
@@ -249,7 +266,34 @@ export default function App() {
         }))
     }, [])
 
+    const effectiveSelectedCategories = useMemo(() => {
+        const cats = [...filters.categories]
+        if (filters.cooperative === 'cooperative') {
+            if (!cats.includes('Cooperative')) cats.push('Cooperative')
+            if (!cats.includes('Semi-cooperative')) cats.push('Semi-cooperative')
+        }
+        return cats
+    }, [filters.categories, filters.cooperative])
+
     const columns = useMemo(() => [
+        {
+            field: '__rowNum__',
+            headerName: '#',
+            width: 50,
+            sortable: false,
+            disableColumnMenu: true,
+            align: 'center',
+            headerAlign: 'center',
+            renderCell: (params) => {
+                const sortedIds = gridSortedRowIdsSelector(params.api.state, params.api.instanceId)
+                const index = sortedIds.indexOf(params.id)
+                return (
+                    <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
+                        {index + 1}
+                    </Box>
+                )
+            },
+        },
         {
             field: 'status',
             headerName: 'Status',
@@ -266,8 +310,7 @@ export default function App() {
                 return Icon ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}><Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/></Box> : null
             },
         },
-        {field: 'name', headerName: 'Game', sortable: true, minWidth: 125, renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
-        {field: 'cooperative', headerName: 'Cooperative', type: 'boolean', sortable: true},
+        {field: 'name', headerName: 'Game', sortable: true, width: 225, renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
         {
             field: 'categories',
             headerName: 'Categories',
@@ -276,21 +319,22 @@ export default function App() {
             minWidth: 150,
             renderCell: ({value}) => (
                 <Box sx={{display: 'flex', alignItems: 'center', height: '100%', width: '100%'}}>
-                    <ChipList values={value} selectedValues={filters.categories} onToggle={handleCategoryToggle}/>
+                    <ChipList values={value} selectedValues={effectiveSelectedCategories} onToggle={handleCategoryToggle}/>
                 </Box>
             ),
         },
-        {field: 'players', headerName: 'Players', sortable: true, renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
+        {field: 'players', headerName: 'Players', sortable: true, width: 90, renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
         {
             field: 'playTimeMax',
             headerName: 'Max Play Time',
             sortable: true,
+            width: 130,
             type: 'number',
             align: 'left',
             headerAlign: 'left',
             renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{formatMinutes(value)}</Box>,
         },
-        {field: 'weight', headerName: 'Weight', sortable: true, align: 'left', headerAlign: 'left', renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
+        {field: 'weight', headerName: 'Weight', sortable: true, width: 80, align: 'left', headerAlign: 'left', renderCell: ({value}) => <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>{value}</Box>},
         {
             field: 'ownership',
             headerName: 'Ownership',
@@ -306,7 +350,7 @@ export default function App() {
                 return Icon ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}><Icon fontSize="small" sx={{color: entry.color}} titleAccess={entry.key}/></Box> : null
             },
         },
-    ], [filters.categories, handleCategoryToggle])
+    ], [effectiveSelectedCategories, handleCategoryToggle])
 
     const sortedFilteredRows = useMemo(
         () => [...filteredRows].sort((a, b) => a.name.localeCompare(b.name)),
@@ -317,7 +361,7 @@ export default function App() {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <PageBackground/>
-            <Box sx={{p: {xs: 2, md: 3}}}>
+            <Box ref={pageRef} sx={{p: {xs: 2, md: 3}}}>
                 <Typography variant="h4" gutterBottom>
                     Board Games
                 </Typography>
@@ -364,7 +408,7 @@ export default function App() {
                 {isMobile ? (
                     <Box sx={{display: 'flex', flexDirection: 'column', gap: 1.5}}>
                         {sortedFilteredRows.map(row => (
-                            <GameCard key={row.id} row={row} selectedCategories={filters.categories} onCategoryToggle={handleCategoryToggle}/>
+                            <GameCard key={row.id} row={row} selectedCategories={effectiveSelectedCategories} onCategoryToggle={handleCategoryToggle}/>
                         ))}
                     </Box>
                 ) : (
@@ -372,13 +416,11 @@ export default function App() {
                         <DataGrid
                             rows={filteredRows}
                             columns={columns}
-                            pageSizeOptions={[10, 25, 50]}
+                            pageSizeOptions={[25, 50, 100]}
                             initialState={{
-                                pagination: {paginationModel: {pageSize: 25}},
+                                pagination: {paginationModel: {pageSize: 100}},
                                 sorting: {sortModel: [{field: 'name', sort: 'asc'}]},
                             }}
-                            autosizeOnMount
-                            autosizeOptions={{expand: true}}
                             getRowHeight={() => 'auto'}
                             disableRowSelectionOnClick
                             sx={{

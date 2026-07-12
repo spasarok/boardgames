@@ -79,6 +79,11 @@ categories:
     examples:
       - "Can't Stop"
       - "Zombie Dice"
+  Randomness:
+    description: "Game state changes unpredictably (Pandemic, Keep the Heroes Out)"
+    examples:
+      - "Pandemic"
+      - "Keep the Heroes Out"
   Resource Management:
     description: "Gather, store, and spend resources efficiently (Catan, Agricola)"
     examples:
@@ -118,11 +123,6 @@ categories:
       - "Bridge"
       - "Hearts"
       - "Euchre"
-  Variable Events:
-    description: "Game state changes unpredictably (Pandemic, Keep the Heroes Out)"
-    examples:
-      - "Pandemic"
-      - "Keep the Heroes Out"
   Voting:
     description: "Players vote on outcomes, often with hidden agendas (Secret Hitler, The Resistance)"
     examples:

@@ -3,6 +3,7 @@ games:
     categories:
       - "Drafting"
       - "Simultaneous Play"
+      - "Cards"
     player_count:
       min: 2
       max: 7
@@ -11,15 +12,99 @@ games:
       max: 0:45
     rules_link: [ Link to rules - fill out later ]
     ownership: "Own"
+    status: "Play Sometimes"
     themes:
       - "Ancient civilizations"
       - "City-building"
     weight: 2.5
-  Codenames Pictures:
+  7 Wonders Duel:
+    categories:
+      - "Resource Management"
+    player_count:
+      min: 2
+      max: 2
+    play_time:
+      min: 0:30
+      max: 0:45
+    ownership: "Own"
+    status: "Play Sometimes"
+    themes:
+      - "Ancient civilizations"
+      - "City-building"
+    weight: 2.5
+  Aeon's End:
+    categories:
+      - "Cooperative"
+      - "Deck-building"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 4
+    play_time:
+      min: 0:30
+      max: 1
+    status: "Play Rarely"
+    weight: 2.5
+  "Ascension: Two Year Collector's Edition":
+    categories:
+      - "Cooperative"
+      - "Deck-building"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 4
+    play_time:
+      min: 0:30
+      max: 1
+    status: "Play Rarely"
+    weight: 2.5
+  Agricola:
+    categories:
+      - "European"
+      - "Worker Placement"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 5
+    play_time:
+      min: 1
+      max: 2
+    status: "Play Sometimes"
+    weight: 3.0
+  Boggle:
     categories:
       - "Wordplay"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:15
+      max: 0:30
+    status: "Favorite"
+    weight: 1.5
+  "Century: Spice Road":
+    categories:
+      - "Engine-building"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 5
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Play Rarely"
+    weight: 2.5
+  Codenames Pictures:
+    categories:
+      - "Cooperative"
+      - "Party"
+      - "Wordplay"
       - "Guessing"
-    cooperative: true
     ownership: "Own"
     player_count:
       min: 4
@@ -27,11 +112,40 @@ games:
     play_time:
       min: 0:15
       max: 0:30
+    status: "Favorite"
     weight: 1.5
+  D.C. Deck-building Game:
+    categories:
+      - "Deck-building"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Play Rarely"
+    weight: 2.5
+  Dead of Winter:
+    categories:
+      - "Cooperative"
+      - "Semi-cooperative"
+      - "Randomness"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 5
+    play_time:
+      min: 1
+      max: 2
+    status: "Play Sometimes"
+    weight: 3.0
   Dominion:
     categories:
       - "Deck-building"
-    ownership: "Trade/Sell"
+      - "Cards"
+    ownership: "Own"
     player_count:
       min: 2
       max: 4
@@ -40,11 +154,67 @@ games:
       max: 0:45
     status: "Favorite"
     weight: 2.0
+  "Dominion: Intrigue":
+    categories:
+      - "Deck-building"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Favorite"
+    weight: 2.0
+  Friday:
+    categories:
+      - "Solo"
+      - "Deck-building"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 1
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Play Sometimes"
+    weight: 2.0
+  Furnace:
+    categories:
+      - "Engine-building"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Want to Play"
+    weight: 2.0
+  Jaipur:
+    categories:
+      - "Set Collection"
+      - "Hand Management"
+      - "Resource Management"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 2
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Play Rarely"
+    weight: 2.0
   Keep the Heroes Out:
     categories:
+      - "Cooperative"
       - "Hand Management"
-      - "Variable Events"
-    cooperative: true
+      - "Randomness"
+      - "Cards"
     ownership: "Own"
     player_count:
       min: 1
@@ -54,8 +224,23 @@ games:
       max: 0:45
     status: "Favorite"
     weight: 2.0
+  Legendary Encounters:
+    categories:
+      - "Cooperative"
+      - "Deck-building"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 5
+    play_time:
+      min: 0:30
+      max: 1
+    status: "Play Sometimes"
+    weight: 2.5
   Nemesis:
-    cooperative: true
+    categories:
+      - "Cooperative"
     player_count:
       min: 1
       max: 5
@@ -64,6 +249,21 @@ games:
       max: 2:30
     status: "Want to Play"
     weight: 3.5
+  Poetry for Neanderthals:
+    categories:
+      - "Cooperative"
+      - "Party"
+      - "Wordplay"
+      - "Guessing"
+    ownership: "Own"
+    player_count:
+      min: 3
+      max: 8
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Favorite"
+    weight: 1.5
   Power Grid:
     categories:
       - "European"
@@ -76,13 +276,85 @@ games:
     play_time:
       min: 2
       max: 2:30
+    status: "Play Sometimes"
+    weight: 3.0
+  Race for the Galaxy:
+    categories:
+      - "Hand Management"
+      - "Engine-building"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:30
+      max: 1
     status: "Favorite"
     weight: 3.0
+  Radlands:
+    categories:
+      - "Hand Management"
+      - "Engine-building"
+      - "Resource Management"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 2
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Play Sometimes"
+    weight: 3.0
+  Robinson Crusoe:
+    categories:
+      - "Cooperative"
+      - "Randomness"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 4
+    play_time:
+      min: 1
+      max: 2
+    status: "Want to Play"
+    weight: 3.0
+  Roll for the Galaxy:
+    categories:
+      - "Dice Rolling"
+      - "Engine-building"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 5
+    play_time:
+      min: 0:30
+      max: 1
+    status: "Play Sometimes"
+    weight: 3.0
+  Scrabble:
+    categories:
+      - "Family"
+      - "Wordplay"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:45
+      max: 1:30
+    status: "Favorite"
+    weight: 2.0
   Settlers of Catan:
     categories:
       - "European"
       - "Dice Rolling"
+      - "Randomness"
       - "Resource Management"
+      - "Cards"
     ownership: "Own"
     player_count:
       min: 3
@@ -90,10 +362,119 @@ games:
     play_time:
       min: 1
       max: 1:30
+    status: "Play Rarely"
     weight: 2.5
+  Shadowrift:
+    categories:
+      - "Cooperative"
+      - "Deck-building"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 4
+    play_time:
+      min: 0:30
+      max: 1
+    status: "Play Sometimes"
+    weight: 2.5
+  Spirit Island:
+    categories:
+      - "Cooperative"
+      - "Randomness"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 4
+    play_time:
+      min: 0:30
+      max: 1
+    status: "Play Sometimes"
+    weight: 2.5
+  Splendor:
+    categories:
+      - "Set Collection"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Play Sometimes"
+    weight: 2.5
+  "Splendor: Pokemon":
+    categories:
+      - "Set Collection"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Want to Play"
+    weight: 2.5
+  Stone Age:
+    categories:
+      - "Worker Placement"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 1
+      max: 2
+    status: "Play Rarely"
+    weight: 3.0
+  Sushi Go!:
+    categories:
+      - "Drafting"
+      - "Set Collection"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 5
+    play_time:
+      min: 0:15
+      max: 0:30
+    status: "Favorite"
+    weight: 1.5
+  Terraforming Mars:
+    categories:
+      - "Engine-building"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 5
+    play_time:
+      min: 1
+      max: 2
+    status: "Play Rarely"
+    weight: 3.0
+  Tiny Epic Galaxies:
+    categories:
+      - "Engine-building"
+      - "Resource Management"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 4
+    play_time:
+      min: 0:30
+      max: 1
+    status: "Play Sometimes"
+    weight: 3.0
   Valley of the Kings:
     categories:
       - "Deck-building"
+      - "Cards"
     ownership: "Own"
     player_count:
       min: 1
@@ -103,3 +484,31 @@ games:
       max: 0:45
     status: "Favorite"
     weight: 2.0
+  Warp's Edge:
+    categories:
+      - "Solo"
+      - "Deck-building"
+      - "Cards"
+    ownership: "Own"
+    player_count:
+      min: 1
+      max: 4
+    play_time:
+      min: 0:30
+      max: 0:45
+    status: "Want to Play"
+    weight: 2.0
+  Zombie Dice:
+    categories:
+      - "Push-your-luck"
+      - "Dice Rolling"
+      - "Randomness"
+    ownership: "Own"
+    player_count:
+      min: 2
+      max: 99
+    play_time:
+      min: 0:15
+      max: 0:30
+    status: "Favorite"
+    weight: 1.5
