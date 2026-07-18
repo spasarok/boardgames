@@ -136,10 +136,11 @@ export default function Filters({filters, onChange, onClearAll, allCategories, p
                         step={1}
                         marks={[
                             {value: playersRange[0], label: playersRange[0]},
-                            {value: playersRange[1], label: playersRange[1]},
+                            {value: playersRange[1], label: `${playersRange[1]}+`},
                         ]}
                         onChange={(_, v) => update('playerCount', v)}
                         valueLabelDisplay="auto"
+                        valueLabelFormat={(v) => v === playersRange[1] ? `${v}+` : v}
                         sx={{width: 140}}
                     />
                 </Box>

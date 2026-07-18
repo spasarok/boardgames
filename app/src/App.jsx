@@ -204,7 +204,7 @@ export default function App() {
 
     const playersRange = useMemo(() => {
         const vals = rows.flatMap(r => [r.playerMin, r.playerMax]).filter(v => v != null)
-        return vals.length ? [Math.min(...vals), Math.max(...vals)] : [1, 10]
+        return vals.length ? [Math.min(...vals), 12] : [1, 12]
     }, [rows])
 
     const weightOptions = useMemo(() => Object.keys(rawWeights.weights ?? rawWeights), [])
